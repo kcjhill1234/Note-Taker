@@ -32,6 +32,13 @@ app.post("/api/notes", async (req, res) => {
     note.push(newNote);
     await writeFile(where, JSON.stringify(note));
     res.json(newNote);
+})
+app.delete("/api/notes/:id", async (req, res) => {
+    const noteId = req.params.id; 
+    const note = JSON.parse(await readFile(where, { encoding: 'utf-8'}))
+        .filter(note => note.id !== noteId);
+    await writeFile(where, JSON.stringify(note));
+    res.send('deleted');
 
 });
 
